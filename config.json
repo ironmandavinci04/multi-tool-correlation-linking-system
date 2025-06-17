@@ -1,0 +1,67 @@
+{
+    "tools": {
+        "theharvester": {
+            "enabled": true,
+            "sources": "all",
+            "timeout": 300
+        },
+        "recon-ng": {
+            "enabled": true,
+            "modules": [
+                "recon/domains-hosts/hackertarget",
+                "recon/domains-hosts/threatcrowd",
+                "recon/hosts-hosts/resolve"
+            ],
+            "timeout": 300
+        },
+        "spiderfoot": {
+            "enabled": true,
+            "modules": "TLD",
+            "timeout": 600
+        },
+        "nmap": {
+            "enabled": true,
+            "options": "-sS -O -A -T4",
+            "timeout": 600
+        },
+        "amass": {
+            "enabled": true,
+            "options": "enum",
+            "timeout": 600
+        },
+        "subfinder": {
+            "enabled": true,
+            "timeout": 300
+        },
+        "dnsrecon": {
+            "enabled": true,
+            "options": "-t std,rvl,srv,axfr",
+            "timeout": 300
+        }
+    },
+    "correlation": {
+        "confidence_threshold": 0.6,
+        "relationship_types": [
+            "domain_association",
+            "email_domain",
+            "subdomain_parent",
+            "ip_domain"
+        ]
+    },
+    "maltego": {
+        "auto_launch": false,
+        "export_formats": ["csv", "xml"],
+        "entity_types": {
+            "domain": "maltego.Domain",
+            "email": "maltego.EmailAddress",
+            "host": "maltego.Website",
+            "ip": "maltego.IPv4Address"
+        }
+    },
+    "output": {
+        "base_directory": "./results",
+        "timestamp_folders": true,
+        "compress_results": false
+    }
+}
+
