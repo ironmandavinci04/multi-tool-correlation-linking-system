@@ -1,0 +1,11 @@
+workspaces create 17642 BEACH HB CA 92647_workspace
+db insert domains 17642 BEACH HB CA 92647
+modules load recon/domains-hosts/hackertarget
+run
+modules load recon/domains-hosts/threatcrowd
+run
+modules load recon/hosts-hosts/resolve
+run
+show hosts
+export csv hosts /tmp/recon_hosts.csv
+exit
