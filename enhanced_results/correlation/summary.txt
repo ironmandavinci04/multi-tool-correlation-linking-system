@@ -1,0 +1,21 @@
+Multi-Tool Analysis Summary for www.mercyhouse.net
+======================================
+Generated: Tue Jun 17 04:48:41 UTC 2025
+
+Domains/IPs found: 1
+Emails found: 0
+
+Top Domains/IPs:
+./enhanced_multi_tool.sh: line 84: assetfinder: command not found
+
+Emails found:
+
+
+Tool Results:
+all_domains_ips.txt
+all_emails.txt
+assetfinder_www.mercyhouse.net.txt
+dnsrecon_www.mercyhouse.net.txt
+fierce_www.mercyhouse.net.txt
+nmap_www.mercyhouse.net.txt
+summary.txt
