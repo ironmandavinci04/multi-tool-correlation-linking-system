@@ -1,0 +1,24 @@
+# Python Dependencies for Multi-Tool Correlation System
+
+# Core libraries
+requests>=2.25.1
+beautifulsoup4>=4.9.3
+lxml>=4.6.3
+
+# Optional libraries for enhanced functionality
+colorama>=0.4.4
+termcolor>=1.1.0
+rich>=10.0.0
+
+# For additional parsing capabilities
+jsonschema>=3.2.0
+pyyaml>=5.4.1
+
+# For network operations
+urllib3>=1.26.5
+certifi>=2020.12.5
+
+# For data analysis (optional)
+pandas>=1.3.0
+numpy>=1.21.0
+
