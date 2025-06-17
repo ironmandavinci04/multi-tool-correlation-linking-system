@@ -1,0 +1,4 @@
+Starting Nmap 7.80 ( https://nmap.org ) at 2025-06-17 05:19 UTC
+Failed to resolve "17642 BEACH HB CA 92647".
+WARNING: No targets were specified, so 0 hosts scanned.
+Nmap done: 0 IP addresses (0 hosts up) scanned in 0.30 seconds
