@@ -1,0 +1,17 @@
+Multi-Tool Correlation System
+Version: 1.0.0
+Release Date: 2025-06-17
+Author: Tony's Research Archive
+
+Compatibility:
+- Kali Linux 2023+
+- Python 3.8+
+- Maltego CE/XL
+
+Features:
+- Multi-tool OSINT integration
+- Parallel processing
+- SQLite database correlation
+- Maltego visualization
+- Automated reporting
+
