@@ -238,7 +238,9 @@ class MultiToolLinker:
         
         for entity in entities:
             entity_elem = ET.SubElement(entities_elem, "Entity")
-            entity_elem.set("Type", f"maltego.{entity['type'].capitalize()}")
+            # Use Person type for suspects, otherwise capitalize the existing type
+            entity_type = "Person" if entity['type'] == 'suspect' else entity['type'].capitalize()
+            entity_elem.set("Type", f"maltego.{entity_type}")
             
             value_elem = ET.SubElement(entity_elem, "Value")
             value_elem.text = entity['name']
@@ -259,6 +261,25 @@ class MultiToolLinker:
         tree.write(maltego_xml, encoding='utf-8', xml_declaration=True)
         
         print(f"[+] Maltego transform data saved to {maltego_xml}")
+        
+    def add_suspect_names(self, suspect_names):
+        """Add suspect names as entities"""
+        print("[+] Adding suspect names to entities")
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        
+        for name in suspect_names:
+            try:
+                cursor.execute('''
+                    INSERT OR IGNORE INTO entities (name, type, source_tool, confidence)
+                    VALUES (?, ?, ?, ?)
+                ''', (name, 'suspect', 'user_input', 1.0))
+                print(f"[+] Added suspect: {name}")
+            except Exception as e:
+                print(f"[-] Error storing suspect name {name}: {e}")
+        
+        conn.commit()
+        conn.close()
         
     def store_entities(self, entities):
         """Store entities in database"""
@@ -293,6 +314,8 @@ class MultiToolLinker:
                 (e1.type = 'email' AND e2.type = 'domain' AND e1.name LIKE '%' || e2.name || '%')
                 OR (e1.type = 'domain' AND e2.type = 'host' AND e2.name LIKE '%' || e1.name || '%')
                 OR (e1.type = 'host' AND e2.type = 'domain' AND e1.name LIKE '%' || e2.name || '%')
+                OR (e1.type = 'suspect' AND (e2.type = 'email' OR e2.type = 'domain' OR e2.type = 'host') 
+                    AND (e1.name LIKE '%' || e2.name || '%' OR e2.name LIKE '%' || e1.name || '%'))
             )
         ''')
         
@@ -354,7 +377,7 @@ class MultiToolLinker:
         
         print(f"[+] Report saved to {report_file}")
         
-    def run_analysis(self, target):
+    def run_analysis(self, target, suspect_names=None):
         """Run complete multi-tool analysis"""
         print(f"[+] Starting multi-tool analysis on {target}")
         
@@ -368,10 +391,25 @@ class MultiToolLinker:
         # Store entities in database
         self.store_entities(all_entities)
         
+        # Add suspect names if provided
+        if suspect_names:
+            print(f"[+] Adding {len(suspect_names)} suspect names")
+            self.add_suspect_names(suspect_names)
+        
         # Find correlations
         self.find_correlations()
         
         # Create Maltego transforms
+        # Query all entities including suspects for transform generation
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, type, source_tool, confidence FROM entities")
+        all_entities = [
+            {'name': row[0], 'type': row[1], 'source_tool': row[2], 'confidence': row[3]}
+            for row in cursor.fetchall()
+        ]
+        conn.close()
+        
         self.create_maltego_transforms(all_entities)
         
         # Generate report
@@ -380,17 +418,40 @@ class MultiToolLinker:
         print(f"[+] Analysis complete. Results in {self.output_dir}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Multi-Tool Data Correlation and Linking")
+    parser = argparse.ArgumentParser(
+        description="Multi-Tool Data Correlation and Linking System",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run analysis on a domain
+  %(prog)s example.com
+  
+  # Run analysis with suspect names
+  %(prog)s example.com -s "John Doe" "Jane Smith"
+  
+  # Specify output directory
+  %(prog)s example.com -o ./my_results -s "John Doe"
+"""
+    )
     parser.add_argument("target", help="Target domain or entity to analyze")
     parser.add_argument("-o", "--output", default="./results", help="Output directory")
+    parser.add_argument("-s", "--suspects", nargs='+', help="List of suspect names to add")
     
     args = parser.parse_args()
     
-    # Create linker instance
-    linker = MultiToolLinker(args.output)
-    
-    # Run analysis
-    linker.run_analysis(args.target)
+    try:
+        # Create linker instance
+        linker = MultiToolLinker(args.output)
+        
+        # Run analysis with optional suspect names
+        linker.run_analysis(args.target, suspect_names=args.suspects)
+        
+    except KeyboardInterrupt:
+        print("\n[-] Analysis interrupted by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"[-] Error during analysis: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
