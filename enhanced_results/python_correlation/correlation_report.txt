@@ -1,7 +1,43 @@
 Multi-Tool Correlation Report
 ==================================================
 
-Generated: 2025-06-17 04:48:52.125213
+Generated: 2025-06-17 05:49:07.901005
 
 Entities by Relationship Count:
 ------------------------------
+Name: 17642 BEACH HB CA 92647
+Type: address
+Source: manual_input
+Confidence: 1.0
+Relationships: 5
+--------------------
+Name: lawrence haines
+Type: suspect
+Source: manual_input
+Confidence: 1.0
+Relationships: 1
+--------------------
+Name: oliver chi
+Type: suspect
+Source: manual_input
+Confidence: 1.0
+Relationships: 1
+--------------------
+Name: andrew do
+Type: suspect
+Source: manual_input
+Confidence: 1.0
+Relationships: 1
+--------------------
+Name: shigeru yamada
+Type: suspect
+Source: manual_input
+Confidence: 1.0
+Relationships: 1
+--------------------
+Name: mitsuru yamada
+Type: suspect
+Source: manual_input
+Confidence: 1.0
+Relationships: 1
+--------------------
