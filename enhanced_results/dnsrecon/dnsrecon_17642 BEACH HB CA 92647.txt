@@ -1,0 +1,2 @@
+[*] Performing General Enumeration of Domain:17642 BEACH HB CA 92647
+[-] Could not resolve domain: 17642 BEACH HB CA 92647
