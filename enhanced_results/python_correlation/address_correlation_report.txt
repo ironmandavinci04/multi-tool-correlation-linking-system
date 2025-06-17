@@ -1,0 +1,42 @@
+Address Correlation Report
+==================================================
+
+Generated: 2025-06-17 05:26:29.471391
+
+Target Address:
+Address: 17642 BEACH HB CA 92647
+Details: {"type": "residential", "verified": true, "last_updated": "2025-06-17T05:26:29.210029"}
+
+Associated Suspects:
+------------------------------
+
+Name: lawrence haines
+Relationship: resident
+Confidence: 0.95
+Verification Status: True
+Last Updated: 2025-06-17T05:26:29.344760
+--------------------
+Name: oliver chi
+Relationship: resident
+Confidence: 0.95
+Verification Status: True
+Last Updated: 2025-06-17T05:26:29.344957
+--------------------
+Name: andrew do
+Relationship: resident
+Confidence: 0.95
+Verification Status: True
+Last Updated: 2025-06-17T05:26:29.344982
+--------------------
+Name: shigeru yamada
+Relationship: resident
+Confidence: 0.95
+Verification Status: True
+Last Updated: 2025-06-17T05:26:29.344996
+--------------------
+Name: mitsuru yamada
+Relationship: resident
+Confidence: 0.95
+Verification Status: True
+Last Updated: 2025-06-17T05:26:29.345007
+--------------------
