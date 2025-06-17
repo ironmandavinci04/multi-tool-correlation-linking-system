@@ -63,38 +63,88 @@ python3 multi_tool_linker.py example.com -o ./results
 
 ## Tool Requirements
 
-### Essential Tools (should be installed)
-- `maltego` - Main visualization platform
-- `theharvester` - Email and subdomain enumeration
-- `recon-ng` - Reconnaissance framework
-- `spiderfoot` - OSINT automation
-- `nmap` - Network discovery and security auditing
-- `amass` - DNS enumeration
-- `subfinder` - Subdomain discovery
-- `dnsrecon` - DNS enumeration
+### Installed Reconnaissance Tools
 
-### Optional Tools
-- `httpx` - Fast HTTP probe
-- `whatweb` - Web technology identification
-- `dirb` - Directory discovery
-- `assetfinder` - Asset discovery
-- `fierce` - DNS reconnaissance
-
-### Install Missing Tools
+#### 1. nmap (v7.80)
+Network mapper and security scanner
 ```bash
-# Update package list
-sudo apt update
+# Basic scan
+nmap -sV -p- example.com
 
-# Install common tools
-sudo apt install nmap dnsrecon fierce whatweb dirb
+# Aggressive scan with OS detection
+nmap -A example.com
 
-# Install Go-based tools
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-go install -v github.com/tomnomnom/assetfinder@latest
+# Quick scan
+nmap -T4 -F example.com
+```
 
-# Install Python tools
-pip3 install theHarvester
+#### 2. dnsrecon (v0.9.0)
+DNS enumeration and recon tool
+```bash
+# Standard scan
+dnsrecon -d example.com -t std
+
+# Zone transfer
+dnsrecon -d example.com -t axfr
+
+# Brute force subdomains
+dnsrecon -d example.com -t brt -D /path/to/wordlist.txt
+```
+
+#### 3. subfinder (v2.7.1)
+Modern subdomain discovery tool
+```bash
+# Basic subdomain enumeration
+subfinder -d example.com
+
+# Silent output with only subdomains
+subfinder -d example.com -silent
+
+# Use custom resolvers
+subfinder -d example.com -r resolvers.txt
+```
+
+#### 4. assetfinder
+Find domains and subdomains related to a domain
+```bash
+# Basic usage
+assetfinder example.com
+
+# Save results to file
+assetfinder example.com > domains.txt
+```
+
+#### 5. spiderfoot
+OSINT automation tool
+```bash
+# Start the web interface
+python3 /usr/share/spiderfoot/sf.py -l 127.0.0.1:5001
+
+# Access web interface at http://127.0.0.1:5001
+```
+
+#### 6. recon-ng
+Web reconnaissance framework
+```bash
+# Start recon-ng
+/usr/share/recon-ng/recon-ng
+
+# Inside recon-ng:
+workspaces create example
+modules search
+modules load recon/domains-hosts/google_site_web
+```
+
+### Tool Verification
+To verify all tools are properly installed:
+```bash
+echo "Testing tools:" && \
+echo -n "nmap: " && nmap -V | head -n1 && \
+echo -n "dnsrecon: " && dnsrecon -v | head -n1 && \
+echo -n "subfinder: " && subfinder -version && \
+echo -n "assetfinder: " && which assetfinder && \
+echo -n "spiderfoot: " && ls /usr/share/spiderfoot/sf.py && \
+echo -n "recon-ng: " && ls /usr/share/recon-ng/recon-ng
 ```
 
 ## Configuration
